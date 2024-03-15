@@ -20,7 +20,7 @@ gpg_gen() {
 add_to_git() {
     echo "Select a key from the given list: "
     echo 
-    gpg --list-secret-keys --keyid-format=long
+    echo $(gpg --list-secret-keys --keyid-format=long | grep "^sec" | awk '{print $2}')
 
     read -r gkey
 
