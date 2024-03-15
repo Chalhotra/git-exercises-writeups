@@ -33,12 +33,26 @@ add_to_git() {
 }
 
 
+delete_key() {
+    echo "Enter the key ID you want to delete: "
+    echo 
+    echo $(gpg --list-secret-keys --keyid-format=long | grep "^sec" | awk '{print $2}')
+
+    read -r key_id
+
+    echo "Deleting GPG key..."
+    gpg --delete-secret-keys "$key_id"
+    echo "Key with ID $key_id has been deleted."
+}
+
 menu() {
     echo -e "1.) Create GPG Key"
     echo
     echo -e "2.) Add GPG Key to Git and GitHub"
     echo
-    echo -e "3.) Exit"
+    echo -e "3.) Delete GPG Key"
+    echo
+    echo -e "4.) Exit"
 
     read -r choice
 
@@ -49,6 +63,12 @@ menu() {
         add_to_git
         menu
     elif [ "$choice" -eq 3 ]; then
+        delete_key
+        menu
+    
+
+        
+    elif [ "$choice" -eq 4 ]; then
         exit
     else 
         echo "Please choose a valid option"
