@@ -33,16 +33,22 @@ add_to_git() {
 }
 
 
+
 delete_key() {
     echo "Enter the key ID you want to delete: "
-    echo 
+    echo
     echo $(gpg --list-secret-keys --keyid-format=long | grep "^sec" | awk '{print $2}')
 
     read -r key_id
 
-    echo "Deleting GPG key..."
-    gpg --delete-secret-keys "$key_id"
-    echo "Key with ID $key_id has been deleted."
+
+    if gpg --list-secret-keys --keyid-format=long "$key_id" &>/dev/null; then
+        echo "Deleting the specified GPG key..."
+        gpg --delete-secret-keys "$key_id"
+        echo "Key with ID $key_id has been deleted."
+    else
+        echo "Error: Key with ID $key_id does not exist."
+    fi
 }
 
 menu() {
