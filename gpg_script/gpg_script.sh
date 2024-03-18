@@ -29,7 +29,7 @@ add_to_git() {
     gpg --armor --export "$gkey" > gpg_key.pub
     git config --global user.signingkey "$gkey"
     git config --global commit.gpgsign true
-
+    gpg --armour --export $gkey
     echo "Successfully added this key to your Git configuration."
 }
 
@@ -87,5 +87,6 @@ menu() {
         menu
     fi
 }
+
 banner
 menu
